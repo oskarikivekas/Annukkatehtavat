@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import android.view.View;
+
+import java.text.NumberFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView header;
@@ -30,12 +33,24 @@ public class MainActivity extends AppCompatActivity {
     }
     BottleDispenser machine = BottleDispenser.getInstance();
     public void buyBottle(View v){
-        machine.buyBottle(1);
+        int i = machine.buyBottle();
+        if (i == 1){
+            screen.setText("Add money first!");
+        }else if(i == 2){
+            screen.setText("Machine is empty!");
+        }else if(i == 3){
+            screen.setText("Bottle came out of the dispenser!");
+            double money = machine.getMoney();
+            NumberFormat nm = NumberFormat.getNumberInstance();
+            balance.setText(nm.format(money));
 
+        }
     }
     public void addMoney(View v){
-        machine.addMoney();
+        double money = machine.addMoney();
         screen.setText("Klink! Added more money!");
+        NumberFormat nm = NumberFormat.getNumberInstance();
+        balance.setText(nm.format(money));
     }
     public void moneyback(View V){
         machine.returnMoney();

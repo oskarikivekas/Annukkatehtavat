@@ -12,53 +12,50 @@ public class BottleDispenser {
         return machine;
     }
 
-
+    private int bottles;
     private double money;
 
     ArrayList<Bottle> inventory = new ArrayList<Bottle>();
 
-    private BottleDispenser(){
+    private BottleDispenser() {
 
+        bottles = 5;
 
         money = 0;
 
-        Bottle bottle1 = new Bottle("Pepsi Max", 1.8, 0.5);
-        inventory.add(bottle1);
-        Bottle bottle2 = new Bottle("Pepsi Max", 2.2, 1.5);
-        inventory.add(bottle2);
-        Bottle bottle3 = new Bottle("Coca-Cola Zero", 2.0, 0.5);
-        inventory.add(bottle3);
-        Bottle bottle4 = new Bottle("Coca-Cola Zero", 2.5, 1.5);
-        inventory.add(bottle4);
-        Bottle bottle5 = new Bottle("Fanta Zero", 1.95, 0.5);
-        inventory.add(bottle5);
-
+        for(int i = 0;i<bottles;i++) {
+            Bottle bottle = new Bottle();
+            inventory.add(bottle);
+        }
 
     }
+    public double getMoney() {
+        return money;
+    }
 
-
-    public void addMoney() {
+    public double addMoney() {
         money += 1;
+        return money;
     }
 
 
-    public void buyBottle(int choise) {
+    public int buyBottle() {
 
 
-        if(money < inventory.get(choise - 1).getPrice()) {
-            System.out.println("Add money first!\n");
-        }
         if(inventory.size() == 0) {
-            System.out.println("No bottles left!\n");
+            return 2;
 
-        }else if(money > inventory.get(choise - 1).getPrice()){
+        }else if(money < inventory.get(inventory.size() - 1).getPrice()){
+            return 1;
 
-            System.out.println("KACHUNK! " + inventory.get(choise - 1).getName() + " came out of the dispenser!\n");
+        }else if(money > inventory.get(inventory.size() - 1).getPrice()){
 
-            money -= inventory.get(choise - 1).getPrice();
-            inventory.remove(choise - 1);
-
+            bottles -= 1;
+            money -= inventory.get(inventory.size() - 1).getPrice();
+            inventory.remove(bottles);
+            return 3;
         }
+        return 0;
     }
 
 
