@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
     public void moneyback(View V){
         machine.returnMoney();
         balance.setText("Balance: 0.00");
-
-
     }
 
 
