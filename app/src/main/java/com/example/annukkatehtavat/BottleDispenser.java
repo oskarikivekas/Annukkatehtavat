@@ -33,8 +33,8 @@ public class BottleDispenser {
         return money;
     }
 
-    public double addMoney() {
-        money += 1;
+    public double addMoney(int current) {
+        money += current;
         return money;
     }
 
