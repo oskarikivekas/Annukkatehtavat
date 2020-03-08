@@ -2,23 +2,27 @@ package com.example.annukkatehtavat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+
+
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.view.View;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     TextView progressBar;
     TextView header;
     TextView balance;
     TextView screen;
     SeekBar seekBar;
+    Spinner spinner;
     int max = 20, current = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +33,15 @@ public class MainActivity extends AppCompatActivity {
         screen = (TextView) findViewById(R.id.screen);
         progressBar = (TextView) findViewById(R.id.progressBar);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-
+        spinner = (Spinner) findViewById(R.id.spinner);
         seekBar.setMax(max);
         seekBar.setProgress(current);
         progressBar.setText("" + current);
+
+        String items[] = new String[]{"Pepsi Max 0.5 1.8€","Pepsi Max 1.5 2.2€", "Cola Zero 0.5 2.0€", "Cola Zero 1.5 2.5€", "Fanta Zero 0.5 1.95€"};
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(MainActivity.this, android.R.layout.simple_spinner_item, items);
+        spinner.setAdapter(adapter);
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -51,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
     }
     BottleDispenser machine = BottleDispenser.getInstance();
     public void buyBottle(View v){
-        int i = machine.buyBottle();
+        int choise = spinner.getSelectedItemPosition();
+        int i = machine.buyBottle(choise);
         if (i == 1){
             screen.setText("Add money first!");
         }else if(i == 2){
@@ -76,4 +86,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

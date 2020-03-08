@@ -6,27 +6,30 @@ import java.util.ArrayList;
 public class BottleDispenser {
 
     private static BottleDispenser machine = new BottleDispenser();
-
-
     public static BottleDispenser getInstance(){
         return machine;
     }
 
-    private int bottles;
+
+
     private double money;
 
     ArrayList<Bottle> inventory = new ArrayList<Bottle>();
 
     private BottleDispenser() {
 
-        bottles = 5;
-
         money = 0;
+        Bottle bottle1 = new Bottle("Pepsi Max", 1.8, 0.5);
+        inventory.add(bottle1);
+        Bottle bottle2 = new Bottle("Pepsi Max", 2.2, 1.5);
+        inventory.add(bottle2);
+        Bottle bottle3 = new Bottle("Coca-Cola Zero", 2.0, 0.5);
+        inventory.add(bottle3);
+        Bottle bottle4 = new Bottle("Coca-Cola Zero", 2.5, 1.5);
+        inventory.add(bottle4);
+        Bottle bottle5 = new Bottle("Fanta Zero", 1.95, 0.5);
+        inventory.add(bottle5);
 
-        for(int i = 0;i<bottles;i++) {
-            Bottle bottle = new Bottle();
-            inventory.add(bottle);
-        }
 
     }
     public double getMoney() {
@@ -39,21 +42,21 @@ public class BottleDispenser {
     }
 
 
-    public int buyBottle() {
+    public int buyBottle(int choise) {
+        try {
+            if (inventory.size() == 0 || inventory.get(choise - 1) == null) {
+                return 2;
 
+            } else if (money < inventory.get(choise - 1).getPrice()) {
+                return 1;
 
-        if(inventory.size() == 0) {
+            } else if (money > inventory.get(choise - 1).getPrice()) {
+                money -= inventory.get(choise - 1).getPrice();
+                inventory.remove(choise - 1);
+                return 3;
+            }
+        }catch(ArrayIndexOutOfBoundsException exception){
             return 2;
-
-        }else if(money < inventory.get(inventory.size() - 1).getPrice()){
-            return 1;
-
-        }else if(money > inventory.get(inventory.size() - 1).getPrice()){
-
-            bottles -= 1;
-            money -= inventory.get(inventory.size() - 1).getPrice();
-            inventory.remove(bottles);
-            return 3;
         }
         return 0;
     }
@@ -68,14 +71,7 @@ public class BottleDispenser {
         }
         return 0;
     }
-    public void printBottle() {
-        int i;
-        for(i=0;i<inventory.size();i++){
-            System.out.println((i + 1) + ". Name: " + inventory.get(i).getName());
-            System.out.println("\tSize: " + inventory.get(i).getSize() + "\tPrice: " + inventory.get(i).getPrice());
 
-        }
-    }
 
 
 
